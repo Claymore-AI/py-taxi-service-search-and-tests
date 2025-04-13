@@ -32,14 +32,16 @@ class PrivateSearchTests(TestCase):
             username="jack", password="1234", license_number="BBB222"
         )
 
-        response = self.client.get(reverse("taxi:driver-list"), {"username": "john"})
+        response = self.client.get(reverse("taxi:driver-list"),
+                                   {"username": "john"})
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "john")
         self.assertNotContains(response, "jack")
 
     def test_car_search(self):
-        manufacturer = Manufacturer.objects.create(name="BMW", country="Germany")
+        manufacturer = Manufacturer.objects.create(name="BMW",
+                                                   country="Germany")
         Car.objects.create(model="X5", manufacturer=manufacturer)
         Car.objects.create(model="M3", manufacturer=manufacturer)
 
@@ -53,7 +55,8 @@ class PrivateSearchTests(TestCase):
         Manufacturer.objects.create(name="Toyota", country="Japan")
         Manufacturer.objects.create(name="Ford", country="USA")
 
-        response = self.client.get(reverse("taxi:manufacturer-list"), {"name": "Toyota"})
+        response = self.client.get(reverse("taxi:manufacturer-list"),
+                                   {"name": "Toyota"})
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Toyota")
